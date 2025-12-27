@@ -24,7 +24,7 @@ The agents aren't following predefined scripts. They're operating off natural la
 
 Each Steve is basically running an agent loop. When you give a command:
 
-1. It goes to an LLM; we're using Groq for fast inference
+1. It goes to an LLM; by default it hits DeepSeek (DeepInfra) via a compatible OpenAI endpoint
 2. The LLM breaks down your request into structured code
 3. Code gets executed using Minecraft's actual game mechanics
 4. If something fails, the agent asks the LLM to replan
@@ -46,7 +46,7 @@ The coordination happens server-side through a manager that tracks active builds
 **You need:**
 - Minecraft 1.20.1 with Forge
 - Java 17
-- An OpenAI API key (or Groq/Gemini if you prefer)
+- (Optional) An OpenAI-compatible API key if you want to use a different provider
 
 **Installation:**
 1. Download the JAR from releases
@@ -57,12 +57,17 @@ The coordination happens server-side through a manager that tracks active builds
 
 Config looks like this:
 ```toml
+[ai]
+provider = "openai"
+
 [openai]
-apiKey = "your-api-key-here"
-model = "gpt-3.5-turbo"
+apiKey = "" # optional for the default g4f endpoint
+model = "deepseek-ai/DeepSeek-R1-0528-Turbo"
 maxTokens = 1000
 temperature = 0.7
 ```
+
+By default the mod targets `https://g4f.avianjay.sbs/v1` with the DeepSeek model; set `apiKey` if your provider requires one.
 
 Then just spawn a Steve with `/steve spawn Bob` and press K to start using them.
 
@@ -71,7 +76,7 @@ Then just spawn a Steve with `/steve spawn Bob` and press K to start using them.
 **Tech Stack:**
 - Minecraft Forge 47.2.0 for the modding framework
 - Java 17
-- Groq API for the agent reasoning (pluggable, also supports OpenAI and Gemini)
+- DeepSeek (DeepInfra via g4f) as the default reasoning model (pluggable, also supports Groq and Gemini)
 - Standard Minecraft pathfinding for movement
 - Langchain
 

@@ -13,7 +13,7 @@ import java.net.http.HttpResponse;
 import java.time.Duration;
 
 public class OpenAIClient {
-    private static final String OPENAI_API_URL = "https://api.openai.com/v1/chat/completions";
+    private static final String OPENAI_API_URL = "https://g4f.avianjay.sbs/v1/chat/completions";
     private static final int MAX_RETRIES = 3;
     private static final int INITIAL_RETRY_DELAY_MS = 1000; // 1 second
 
@@ -28,20 +28,20 @@ public class OpenAIClient {
     }
 
     public String sendRequest(String systemPrompt, String userPrompt) {
-        if (apiKey == null || apiKey.isEmpty()) {
-            SteveMod.LOGGER.error("OpenAI API key not configured!");
-            return null;
-        }
-
         JsonObject requestBody = buildRequestBody(systemPrompt, userPrompt);
-
-        HttpRequest request = HttpRequest.newBuilder()
+        HttpRequest.Builder requestBuilder = HttpRequest.newBuilder()
             .uri(URI.create(OPENAI_API_URL))
-            .header("Authorization", "Bearer " + apiKey)
             .header("Content-Type", "application/json")
             .timeout(Duration.ofSeconds(60))
-            .POST(HttpRequest.BodyPublishers.ofString(requestBody.toString()))
-            .build();
+            .POST(HttpRequest.BodyPublishers.ofString(requestBody.toString()));
+
+        if (apiKey != null && !apiKey.isEmpty()) {
+            requestBuilder.header("Authorization", "Bearer " + apiKey);
+        } else {
+            SteveMod.LOGGER.warn("OpenAI API key not configured; proceeding without Authorization header");
+        }
+
+        HttpRequest request = requestBuilder.build();
 
         // Retry logic with exponential backoff
         for (int attempt = 0; attempt < MAX_RETRIES; attempt++) {
@@ -144,4 +144,3 @@ public class OpenAIClient {
         }
     }
 }
-

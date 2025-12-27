@@ -1,10 +1,13 @@
+[ai]
+    # AI provider to use: openai (default), groq, or gemini
+    provider = "openai"
+
 [openai]
-    # Your OpenAI API key
-    # Get your API key from: https://platform.openai.com/api-keys
-    apiKey = "your-openai-api-key-here"
+    # Your OpenAI API key (optional for the default g4f endpoint)
+    apiKey = ""
     
-    # Using GPT-3.5-turbo (much cheaper than GPT-4 for testing)
-    model = "gpt-3.5-turbo"
+    # Default DeepSeek reasoning model served via DeepInfra
+    model = "deepseek-ai/DeepSeek-R1-0528-Turbo"
     
     # Maximum tokens per API request
     maxTokens = 1000
@@ -21,4 +24,3 @@
     
     # Maximum number of Steves that can be active simultaneously
     maxActiveSteves = 10
-
