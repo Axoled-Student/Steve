@@ -27,7 +27,7 @@ public class SteveConfig {
         builder.comment("OpenAI/Gemini API Configuration (same key field used for both)").push("openai");
         
         OPENAI_API_KEY = builder
-            .comment("Your OpenAI API key (required)")
+            .comment("Your OpenAI API key (optional for the default g4f endpoint)")
             .define("apiKey", "");
         
         OPENAI_MODEL = builder
