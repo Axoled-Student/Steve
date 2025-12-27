@@ -19,8 +19,8 @@ public class SteveConfig {
         builder.comment("AI API Configuration").push("ai");
         
         AI_PROVIDER = builder
-            .comment("AI provider to use: 'groq' (FASTEST, FREE), 'openai', or 'gemini'")
-            .define("provider", "groq");
+            .comment("AI provider to use: 'openai' (g4f DeepSeek default), 'groq', or 'gemini'")
+            .define("provider", "openai");
         
         builder.pop();
 
@@ -31,8 +31,8 @@ public class SteveConfig {
             .define("apiKey", "");
         
         OPENAI_MODEL = builder
-            .comment("OpenAI model to use (gpt-4, gpt-4-turbo-preview, gpt-3.5-turbo)")
-            .define("model", "gpt-4-turbo-preview");
+            .comment("OpenAI-compatible model to use (default: DeepSeek via DeepInfra)")
+            .define("model", "deepseek-ai/DeepSeek-R1-0528-Turbo");
         
         MAX_TOKENS = builder
             .comment("Maximum tokens per API request")
@@ -63,4 +63,3 @@ public class SteveConfig {
         SPEC = builder.build();
     }
 }
-
